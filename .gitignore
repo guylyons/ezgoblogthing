@@ -1,0 +1,23 @@
+# Generated site output
+dist/
+
+# Go build artifacts
+bin/
+*.exe
+*.test
+*.out
+coverage.out
+
+# Future frontend tooling
+node_modules/
+.next/
+build/
+
+# Local environment and editor state
+.DS_Store
+.env
+.env.*
+.idea/
+.vscode/
+*.swp
+*.swo

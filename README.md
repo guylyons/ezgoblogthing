@@ -1,6 +1,8 @@
 # ezgoblogthing
 
-`ezgoblogthing` is a planning-stage Go static blog generator.
+`ezgoblogthing` is a small Go static blog generator.
+
+![Generated ezgoblogthing site preview](github.png)
 
 The intended workflow is:
 
@@ -10,7 +12,29 @@ The intended workflow is:
 
 The project should make straightforward Hugo-style Markdown posts easy to bring over, while staying much smaller than Hugo itself.
 
-No runnable implementation exists yet. Current project decisions live in:
+## Commands
+
+Build the static site:
+
+```sh
+go run ./cmd/ezgoblogthing build
+```
+
+Build and serve the static site locally:
+
+```sh
+go run ./cmd/ezgoblogthing serve
+```
+
+Then open <http://localhost:8080>.
+
+Run tests:
+
+```sh
+go test ./...
+```
+
+Current project decisions live in:
 
 - [docs/intent.md](docs/intent.md)
 - [docs/content.md](docs/content.md)

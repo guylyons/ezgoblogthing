@@ -1,0 +1,40 @@
+---
+title: "Tests"
+---
+
+<p>
+This is a page to test GA
+</p>
+
+<div class="cta">
+  <p>this is a test, do you like it?</p>
+  <a href="#" id="test">click me!</a>
+  <a href="#" id="test2">buy now!</a>
+</div>
+
+<a href="#" id="test123">i do nothing!</a>
+<p>make sure to add a param</p>
+
+<hr>
+
+<p>test</p>
+
+<script>
+  console.log("You are on a test page.");
+
+  window.onload = function() {
+    ga('create', 'UA-133184208-2', 'auto');
+
+    let button1 = document.getElementById("test");
+
+    button1.addEventListener("click", function (event) {
+      ga('send', 'event', {
+        eventCategory: 'CTA',
+        eventAction: 'click',
+        eventLabel: event.target.href
+      });
+    });
+
+    ga('send', 'event', 'Modals', 'show', 'No studentID provided');
+  }
+</script>

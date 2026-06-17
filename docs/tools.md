@@ -5,10 +5,10 @@ Go is the selected primary implementation tool. This file should become the sour
 ## Current Tooling State
 
 - Primary language/runtime: Go.
-- Package manager: Go modules once `go.mod` exists.
+- Package manager: Go modules.
 - Framework or static site generator: custom minimal Go generator.
-- Test runner: Go's built-in `go test` once implementation exists.
-- Formatter: Go's built-in `gofmt` once implementation exists.
+- Test runner: Go's built-in `go test`.
+- Formatter: Go's built-in `gofmt`.
 - Frontend tooling: not selected; React is a possible future addition.
 - Deployment target: not selected; static hosting such as Netlify is likely.
 
@@ -25,17 +25,13 @@ Go is the selected primary implementation tool. This file should become the sour
 The current direction is:
 
 - A Go command reads Markdown from `content/`.
-- Templates and static assets are kept in the repository.
+- Rendering templates and static assets are kept in the repository.
 - The generator writes a complete static docroot to `dist/`.
 - The generated docroot can be served locally or uploaded to a static host.
 - Existing Hugo-style Markdown posts should be accepted when they use the supported front matter subset.
 - React remains a future option for interactive behavior, not an initial dependency.
 
 ## Commands
-
-No project commands exist yet because the Go module has not been scaffolded.
-
-Expected future commands should follow this shape:
 
 ```sh
 go run ./cmd/ezgoblogthing build
@@ -45,8 +41,18 @@ Purpose:
 
 - Generate the static docroot from repository content.
 - Run when previewing or preparing a deploy.
-- Expected output: a generated directory such as `dist/`.
-- Version 1 output should include `/posts/`, generated pages, and tag pages.
+- Expected output: the generated `dist/` directory.
+- Version 1 output includes `/posts/`, generated pages, and tag pages.
+
+```sh
+go run ./cmd/ezgoblogthing serve
+```
+
+Purpose:
+
+- Generate `dist/` and serve it at <http://localhost:8080>.
+- Run when visually checking the site in a browser.
+- Stop with `Ctrl-C`.
 
 ```sh
 go test ./...
@@ -63,18 +69,16 @@ gofmt -w ./cmd ./internal
 
 Purpose:
 
-- Format Go source files once those directories exist.
+- Format Go source files.
 - Run after Go code changes.
 
 ## Verification
 
-No automated verification exists yet because no implementation exists.
-
-Once implementation begins, add the expected checks here:
+Expected checks:
 
 - Formatting with `gofmt`.
 - Tests with `go test ./...`.
-- Static generation command.
+- Static generation with `go run ./cmd/ezgoblogthing build`.
 - Link or content validation if the generator adds it.
 - Import checks against representative files in `examples/`.
 

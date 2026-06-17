@@ -39,7 +39,8 @@ Existing Hugo-style blog posts should be easy to move into this project. The goa
 - The generated output directory is `dist/`.
 - Blog posts should live under `/posts/` in the generated site.
 - Pages and tags are part of the content model.
-- Version 1 should not include drafts publishing workflow, feeds, search, image processing, or syntax highlighting.
+- Version 1 should skip files marked `draft: true`, but should not include a fuller drafts publishing workflow.
+- Version 1 should not include feeds, search, image processing, or syntax highlighting.
 - React may be used later, but it is not part of the initial scaffold.
 
 ## Open Product Decisions
@@ -55,8 +56,8 @@ The next useful milestone is a minimal working blog skeleton with:
 
 - A Go module and one runnable generator command.
 - A documented content model.
-- A documented local development command.
-- A documented build or publish command.
+- A documented local serving command.
+- A documented build command.
 - At least one sample post proving the workflow.
 - A generated docroot that can be served locally and deployed as static files.
 - Example Hugo-style posts converted or copied into the real content tree with minimal edits.

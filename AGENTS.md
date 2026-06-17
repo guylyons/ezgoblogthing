@@ -4,7 +4,7 @@ Guidance for AI coding agents working in this project.
 
 ## Project Intent
 
-This repository is for `ezgoblogthing`, a Go-first static blog generator whose implementation has not been scaffolded yet. Treat this repo as a planning-first workspace until the first Go module and runnable command are added.
+This repository is for `ezgoblogthing`, a Go-first static blog generator. The project now has a minimal runnable implementation; keep future changes small and documented.
 
 Primary goals:
 
@@ -20,15 +20,24 @@ See [docs/intent.md](docs/intent.md) for the current product direction.
 
 ## Current Structure
 
-The repository currently contains planning documentation and baseline hygiene files:
+The repository currently contains a minimal Go implementation, starter content, examples, documentation, and baseline hygiene files:
 
 ```text
 .
 ├── .gitignore
 ├── AGENTS.md
 ├── README.md
+├── cmd/
+│   └── ezgoblogthing/
+├── content/
+│   ├── pages/
+│   └── posts/
 ├── examples/
 │   └── 2019/
+├── go.mod
+├── internal/
+│   └── site/
+├── static/
 └── docs/
     ├── content.md
     ├── intent.md
@@ -36,7 +45,7 @@ The repository currently contains planning documentation and baseline hygiene fi
     └── tools.md
 ```
 
-See [docs/structure.md](docs/structure.md) for the intended layout as implementation begins.
+See [docs/structure.md](docs/structure.md) for the intended layout as implementation continues.
 
 ## Agent Workflow
 

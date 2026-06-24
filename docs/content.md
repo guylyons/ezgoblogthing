@@ -25,7 +25,9 @@ Version 1 should support the common front matter patterns visible in `examples/`
 - `draft`: accepted for compatibility. Files with `draft: true` are skipped during generation.
 - `tags`: list of tag names.
 
-The generator should tolerate straightforward Hugo-style Markdown posts when they use this supported subset. It should not try to implement Hugo's full content model, shortcode system, taxonomy behavior, template lookup, or configuration surface.
+The generator should tolerate straightforward Hugo-style Markdown posts when they use this supported subset. It should not try to implement Hugo's full content model, full shortcode system, taxonomy behavior, template lookup, or configuration surface.
+
+Version 1 does support one narrow Hugo-style shortcode that appears in the sample content: `{{< youtube VIDEO_ID >}}`, which renders to a plain YouTube `<iframe>` embed.
 
 ## Routing
 

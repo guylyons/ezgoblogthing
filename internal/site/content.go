@@ -169,6 +169,7 @@ func parseDate(value string) time.Time {
 var (
 	imagePattern       = regexp.MustCompile(`!\[([^\]]*)\]\(([^)\s]+)(?:\s+"[^"]*")?\)`)
 	linkPattern        = regexp.MustCompile(`\[([^\]]+)\]\(([^)\s]+)(?:\s+"[^"]*")?\)`)
+	youtubePattern     = regexp.MustCompile(`^\{\{<\s*youtube\s+([A-Za-z0-9_-]+)\s*>\}\}$`)
 	orderedItemPattern = regexp.MustCompile(`^\d+\.\s+(.+)$`)
 	strongPattern      = regexp.MustCompile(`\*\*([^*]+)\*\*`)
 	emPattern          = regexp.MustCompile(`\*([^*]+)\*`)
@@ -185,6 +186,10 @@ func renderMarkdown(input string) string {
 	for _, block := range blocks {
 		block = strings.TrimSpace(block)
 		if block == "" {
+			continue
+		}
+		if youtube := renderYouTubeShortcode(block); youtube != "" {
+			out.WriteString(youtube)
 			continue
 		}
 		if isRawHTMLBlock(block) {
@@ -290,6 +295,16 @@ func renderInline(input string) string {
 	escaped = strongPattern.ReplaceAllString(escaped, `<strong>$1</strong>`)
 	escaped = emPattern.ReplaceAllString(escaped, `<em>$1</em>`)
 	return escaped
+}
+
+func renderYouTubeShortcode(block string) string {
+	matches := youtubePattern.FindStringSubmatch(strings.TrimSpace(block))
+	if matches == nil {
+		return ""
+	}
+	id := matches[1]
+	return fmt.Sprintf(`<div class="embed-container"><iframe src="https://www.youtube.com/embed/%s" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+`, html.EscapeString(id))
 }
 
 func isRawHTMLBlock(block string) bool {

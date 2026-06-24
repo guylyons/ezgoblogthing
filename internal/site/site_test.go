@@ -90,6 +90,14 @@ Hello post.`)
 title: About
 ---
 About page.`)
+	mustWrite(t, filepath.Join(root, "content", "pages", "links.md"), `---
+title: Links
+---
+Links page.`)
+	mustWrite(t, filepath.Join(root, "content", "pages", "contact.md"), `---
+title: Contact
+---
+Contact page.`)
 	mustWrite(t, filepath.Join(root, "static", "style.css"), `body { color: #222; }`)
 
 	out := filepath.Join(root, "dist")
@@ -98,8 +106,12 @@ About page.`)
 	}
 
 	assertFileContains(t, filepath.Join(out, "index.html"), "Hello")
+	assertFileContains(t, filepath.Join(out, "index.html"), `<nav class="top-nav" aria-label="Pages"><a href="/about/">About</a><span>*</span><a href="/links/">Links</a><span>*</span><a href="/contact/">Contact</a></nav>`)
 	assertFileContains(t, filepath.Join(out, "posts", "hello", "index.html"), "Hello post.")
+	assertFileContains(t, filepath.Join(out, "posts", "hello", "index.html"), "June 16th, 2026")
 	assertFileContains(t, filepath.Join(out, "about", "index.html"), "About page.")
+	assertFileContains(t, filepath.Join(out, "links", "index.html"), "Links page.")
+	assertFileContains(t, filepath.Join(out, "contact", "index.html"), "Contact page.")
 	assertFileContains(t, filepath.Join(out, "tags", "go", "index.html"), "Hello")
 	assertFileContains(t, filepath.Join(out, "style.css"), "color: #222")
 }
@@ -228,6 +240,17 @@ func TestRenderMarkdownHandlesAdjacentHeadingsAndOrderedLists(t *testing.T) {
 	}
 	if !strings.Contains(got, "<li><strong>Mix:</strong> Combine ingredients.</li>") {
 		t.Fatalf("ordered list inline markup was not rendered:\n%s", got)
+	}
+}
+
+func TestRenderMarkdownSupportsYouTubeShortcode(t *testing.T) {
+	got := renderMarkdown(`{{< youtube 4jc1TJoNUuA >}}`)
+
+	if !strings.Contains(got, `https://www.youtube.com/embed/4jc1TJoNUuA`) {
+		t.Fatalf("youtube shortcode was not rendered:\n%s", got)
+	}
+	if !strings.Contains(got, `<iframe`) {
+		t.Fatalf("youtube embed iframe was not rendered:\n%s", got)
 	}
 }
 

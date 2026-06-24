@@ -9,6 +9,7 @@ import (
 	"regexp"
 	"sort"
 	"strings"
+	"time"
 )
 
 type Site struct {
@@ -197,6 +198,8 @@ func writeTemplate(path string, text string, data any) error {
 		"safeHTML": func(s string) template.HTML { return template.HTML(s) },
 		"itemURL":  itemURL,
 		"slug":     slugify,
+		"date":     formatDate,
+		"siteNav":  siteNav,
 	}).Parse(text)
 	if err != nil {
 		return err
@@ -334,6 +337,29 @@ func slugify(value string) string {
 	return strings.Trim(out.String(), "-")
 }
 
+func siteNav() template.HTML {
+	return template.HTML(`<nav class="top-nav" aria-label="Pages"><a href="/about/">About</a><span>*</span><a href="/links/">Links</a><span>*</span><a href="/contact/">Contact</a></nav>`)
+}
+
+func formatDate(t time.Time) string {
+	if t.IsZero() {
+		return ""
+	}
+	day := t.Day()
+	suffix := "th"
+	if day%100 < 11 || day%100 > 13 {
+		switch day % 10 {
+		case 1:
+			suffix = "st"
+		case 2:
+			suffix = "nd"
+		case 3:
+			suffix = "rd"
+		}
+	}
+	return fmt.Sprintf("%s %d%s, %d", t.Month(), day, suffix, t.Year())
+}
+
 const indexTemplate = `<!doctype html>
 <html lang="en">
 <head>
@@ -344,13 +370,14 @@ const indexTemplate = `<!doctype html>
 </head>
 <body>
   <main>
+    {{ siteNav }}
     <h1>{{ .Title }}</h1>
     <section>
       <h2>Posts</h2>
       {{ range .Posts }}
       <article>
         <h3><a href="/posts/{{ .Slug }}/">{{ .Title }}</a></h3>
-        {{ if .Date }}<p>{{ .Date }}</p>{{ end }}
+        {{ with date .SortDate }}<p>{{ . }}</p>{{ end }}
       </article>
       {{ else }}
       <p>No posts yet.</p>
@@ -377,10 +404,11 @@ const itemTemplate = `<!doctype html>
 </head>
 <body>
   <main>
+    {{ siteNav }}
     <p><a href="/">Home</a></p>
     <article>
       <h1>{{ .Title }}</h1>
-      {{ if .Date }}<p>{{ .Date }}</p>{{ end }}
+      {{ with date .SortDate }}<p>{{ . }}</p>{{ end }}
       {{ if .Tags }}<p>{{ range .Tags }}<a href="/tags/{{ slug . }}/">{{ . }}</a> {{ end }}</p>{{ end }}
       {{ .HTML | safeHTML }}
     </article>
@@ -399,12 +427,13 @@ const tagTemplate = `<!doctype html>
 </head>
 <body>
   <main>
+    {{ siteNav }}
     <p><a href="/">Home</a></p>
     <h1>{{ .Title }}</h1>
     {{ range .Posts }}
     <article>
       <h2><a href="{{ itemURL . }}">{{ .Title }}</a></h2>
-      {{ if .Date }}<p>{{ .Date }}</p>{{ end }}
+      {{ with date .SortDate }}<p>{{ . }}</p>{{ end }}
     </article>
     {{ end }}
   </main>

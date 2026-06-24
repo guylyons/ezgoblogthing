@@ -18,10 +18,33 @@ a {
   color: #075985;
 }
 
+.top-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 8px;
+  margin: 0 0 24px;
+}
+
+.top-nav span {
+  color: #666;
+}
+
 img {
   display: block;
   height: auto;
   max-width: 100%;
+}
+
+.embed-container {
+  aspect-ratio: 16 / 9;
+  margin: 16px 0;
+  width: 100%;
+}
+
+.embed-container iframe {
+  border: 0;
+  height: 100%;
+  width: 100%;
 }
 
 article {
